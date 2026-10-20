@@ -33,6 +33,7 @@ The page is **one self-contained HTML file**. All images are embedded inside it,
 portfolio/
 ├── template.html      # the page source: edit text, links and layout here
 ├── build.py           # embeds the screenshots into the template
+├── deploy.sh          # rebuild + publish to GitHub Pages
 ├── screenshots/       # original PNG screenshots (input for build.py)
 │   └── steps/         # section screenshots taken while scrolling
 ├── images/            # compressed JPG copies (handy for posting separately)
@@ -66,27 +67,25 @@ The site is static, with no server or database, so any static host works. You on
 
 **Rename it to `index.html` when you upload it.** Web hosts open `index.html` automatically when someone visits your address. With any other name, visitors would have to type `/portfolio.html` at the end of the link.
 
-### Option 1: GitHub Pages (free, `thoumma.github.io`)
+### Option 1: GitHub Pages (already set up)
 
-1. Create a repo named `thoumma.github.io` on GitHub. You can also use the existing `portfolio` repo, which gives `thoumma.github.io/portfolio`.
-2. Copy the page into a deploy folder as `index.html` and push it:
+**Live site: https://thoumma.github.io/portfolio/**
 
-   ```bash
-   mkdir "D:\portfolio-site"
-   copy "D:\Sveng Project\portfolio\portfolio.html" "D:\portfolio-site\index.html"
-   cd "D:\portfolio-site"
-   git init
-   git add index.html
-   git commit -m "Portfolio"
-   git branch -M main
-   git remote add origin https://github.com/thoumma/thoumma.github.io.git
-   git push -u origin main
-   ```
+The repo https://github.com/Thoumma/portfolio has two branches:
 
-3. On GitHub, open **Settings → Pages**. Set **Source: Deploy from a branch** with branch `main` and folder `/ (root)`, then save.
-4. After 1–2 minutes the site is live at `https://thoumma.github.io`.
+- `main`: the source (template, build script, screenshots).
+- `gh-pages`: only the live page, saved as `index.html`. GitHub Pages serves this branch.
 
-To update: run `py build.py`, copy `portfolio.html` over `D:\portfolio-site\index.html` again, then run `git add index.html`, `git commit -m "Update"` and `git push`.
+To update the live site after any change, run this in Git Bash:
+
+```bash
+cd "/d/Sveng Project/portfolio"
+./deploy.sh
+```
+
+`deploy.sh` rebuilds `portfolio.html`, copies it to the `gh-pages` branch as `index.html`, and pushes. The site updates in about a minute.
+
+To also save your source changes on `main`, run `git add .`, then `git commit -m "Update"`, then `git push`.
 
 ### Option 2: Hostinger subdomain (e.g. `portfolio.ywei.online`)
 
